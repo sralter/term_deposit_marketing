@@ -6,6 +6,7 @@ Apziva: G3SuQYZYrFt9dwF3
 Designing a model that predicts which customers will most likely purchase a term deposit loan.
 
 ## Overview<a name='overview'></a>
+I produced two notebooks for this project, one for the [EDA](project2_eda.ipynb) and one for the [Modeling](project2_modeling.ipynb)
 
 ### Table of Contents
 * [Summary](#summary)
@@ -53,5 +54,8 @@ With 13 columns, there was a lot of data to go through. We'll look at barplots o
 ![Barplots of count of customers between successful and and failed campaigns](figures/2_countcategorical.jpg)
 Although the raw numbers differ drastically between successful and failed campaigns, the patterns are similar for most of the features. Also notable is that there were no calls made to customers in the month of September.
 
-### Figure 2<a name='figure-2></a>
+### Figure 2<a name='figure-2'></a>
 ![Boxplots of numerical columns in dataset, separated by successful and failed campaigns](figures/2_boxplots.jpg)
+Duration does indeed seem different, though recall that this feature is describing how long the last phone call was with the customer. It may not tell us that much.
+
+
