@@ -78,6 +78,8 @@ Duration has the highest correlation with the target variable at over 0.4.
 ![Scatterplots are not helpful for this project](figures/2_pairplot.jpg)
 
 ## Modeling<a name='modeling'></a>
+For the modeling, I used random seed: 4769
+
 _**`AutoSklearn` to  `Optuna` to `scikit-learn`: the Modeling Workflow**_
 
 I first used [`AutoSklearn`](#https://automl.github.io/auto-sklearn/master/#) to help me explore the ML algorithm landscape to identify the best-performing models for this particular dataset.
@@ -121,8 +123,7 @@ However, with our balanced dataset, we needed more control, as we had to tune fo
 1. Run a [grid search](#https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.GridSearchCV.html) of sorts. I created a list of scaling techniques, like [`StandardScaler`](#https://scikit-learn.org/1.5/modules/generated/sklearn.preprocessing.StandardScaler.html), a list of sampling techniques, like [`RandomOverSampler`](#https://imbalanced-learn.org/stable/references/generated/imblearn.over_sampling.RandomOverSampler.html) or [`SMOTETomek`](#https://imbalanced-learn.org/dev/references/generated/imblearn.combine.SMOTETomek.html), and a list of classifiers to test, like [`RandomForestClassifier`](#https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html) or [`LGBMClassifier`](#https://lightgbm.readthedocs.io/en/latest/pythonapi/lightgbm.LGBMClassifier.html).
 2. Using nested `for` loops, I ran through each technique and saved the results to a dictionary.
 3. I extracted the best metric from the results dictionary.
-4. The results pointed me in the direction of which scaler, sampling technique, and model I should use to optimize with Optuna.
-  * A best recall score of over 87% was found with using no scalers, the SMOTE resampling method, and the SGDClassifier model:
+  * A best recall score of over 87% was found with using no scalers, the SMOTE resampling method, and the [SGDClassifier](#https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.SGDClassifier.html) model:
 
 | Class | Precision | Recall | F1-Score | Support |
 |---|---|---|---|---|
@@ -131,4 +132,22 @@ However, with our balanced dataset, we needed more control, as we had to tune fo
 | Accuracy |  |  | 0.24 | 8000 |
 | Macro Avg | 0.51 | 0.53 | 0.23 | 8000 |
 | Weighted Avg | 0.89 | 0.24 | 0.30 | 8000 |
+
+4. The results pointed me in the direction of which scaler, sampling technique, and model I should use to optimize with Optuna.
+  * After 100 trials, I found these parameters, which gave a training recall score of almost 95%:
+
+| Hyperparameter Name | Hyperparameter Value |
+|---|---|
+| penalty | elasticnet |
+| l1_ratio | 0.9665372247163372 |
+| loss | modified_huber |
+| tol | 75.52719927740569 |
+| learning_rate | invscaling |
+| eta0 | 0.7274942852090539 |
+| power_t | 647.2058587404654 |
+| early_stopping | True |
+| validation_fraction | 0.3765902841689254 |
+| alpha | 7.181611953044439e-07 |
+| fit_intercept | False |
+| max_iter | 1344 |
 
