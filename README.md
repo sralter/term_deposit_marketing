@@ -6,13 +6,17 @@ Apziva: G3SuQYZYrFt9dwF3
 Designing a model that predicts which customers will most likely purchase a term deposit loan.
 
 ## Overview<a name='overview'></a>
-I produced two notebooks for this project, one for the [EDA](project2_eda.ipynb) and one for the [Modeling](project2_modeling.ipynb)
+I produced two notebooks for this project, one for the [EDA](project2_eda.ipynb) and one for the [Modeling](project2_modeling.ipynb). This being the ReadMe, you can jump to those sections that are found below.
+* [EDA](#eda)
+* [Modeling](#modeling)
 
 ### Table of Contents
 * [Summary](#summary)
 * [Overview](#overview)
 * [The dataset](#the-dataset)
 * [Goals](#goals)
+* [EDA](#eda)
+* 
 
 ### The dataset<a name='the-dataset'></a>
 I am working with a phone call dataset that also has demographic information about the recipients:
@@ -58,4 +62,6 @@ Although the raw numbers differ drastically between successful and failed campai
 ![Boxplots of numerical columns in dataset, separated by successful and failed campaigns](figures/2_boxplots.jpg)
 Duration does indeed seem different, though recall that this feature is describing how long the last phone call was with the customer. It may not tell us that much.
 
+### Figure 3<a name='figure-3'></a>
+![]()
 
