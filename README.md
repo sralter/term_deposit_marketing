@@ -16,7 +16,10 @@ I produced two notebooks for this project, one for the [EDA](project2_eda.ipynb)
 * [The dataset](#the-dataset)
 * [Goals](#goals)
 * [EDA](#eda)
-* 
+  * [Figure 1: Barplots of count of customers between successful and and failed campaigns](#figure-1)
+  * [Figure 2: Boxplots of numerical columns in dataset, separated by successful and failed campaigns](#figure-2)
+  * [Figure 3: Correlation of feature variables with target](#figure-3)
+  * [What about Scatterplots?](#scat)
 
 ### The dataset<a name='the-dataset'></a>
 I am working with a phone call dataset that also has demographic information about the recipients:
@@ -63,5 +66,10 @@ Although the raw numbers differ drastically between successful and failed campai
 Duration does indeed seem different, though recall that this feature is describing how long the last phone call was with the customer. It may not tell us that much.
 
 ### Figure 3<a name='figure-3'></a>
-![]()
+![Correlation of feature variables with target](figures/2_corr_y.jpg)
+Duration has the highest correlation with the target variable at over 0.4.
 
+### Scatterplots?<a name='scat'></a>
+**What about scatterplots?** you may ask. Scatterplots did not seem to give us much insight. The data are very dispersed and a pattern does not readily emerge:
+
+## Modeling<a name='modeling'></a>
