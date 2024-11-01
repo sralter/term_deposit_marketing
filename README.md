@@ -119,7 +119,7 @@ Use unsupervised learning to uncover how the customers are grouped.
 ### L1 <a name='l1'></a>
 I wrote a function that utilized AutoSklearn to spend 60 minutes perfoming a fitting and evaluation of the models. The function then returned a list of models that achieved a high accuracy.
 
-However, with our balanced dataset, we needed more control, as we had to tune for recall. I decided that the best course of action was to 
+However, with our balanced dataset, we needed more control, as we had to tune for recall. I decided that the best course of action was to: 
 1. Run a [grid search](#https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.GridSearchCV.html) of sorts. I created a list of scaling techniques, like [`StandardScaler`](#https://scikit-learn.org/1.5/modules/generated/sklearn.preprocessing.StandardScaler.html), a list of sampling techniques, like [`RandomOverSampler`](#https://imbalanced-learn.org/stable/references/generated/imblearn.over_sampling.RandomOverSampler.html) or [`SMOTETomek`](#https://imbalanced-learn.org/dev/references/generated/imblearn.combine.SMOTETomek.html), and a list of classifiers to test, like [`RandomForestClassifier`](#https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html) or [`LGBMClassifier`](#https://lightgbm.readthedocs.io/en/latest/pythonapi/lightgbm.LGBMClassifier.html).
 2. Using nested `for` loops, I ran through each technique and saved the results to a dictionary.
 3. I extracted the best metric from the results dictionary.
@@ -133,6 +133,7 @@ However, with our balanced dataset, we needed more control, as we had to tune fo
 | Macro Avg | 0.51 | 0.53 | 0.23 | 8000 |
 | Weighted Avg | 0.89 | 0.24 | 0.30 | 8000 |
 
+[Confusion Matrix #1](figures/2_l1_cm1.jpg)
 4. The results pointed me in the direction of which scaler, sampling technique, and model I should use to optimize with Optuna.
   * After 100 trials, I found these parameters, which gave a training recall score of almost 95%:
 
@@ -151,3 +152,4 @@ However, with our balanced dataset, we needed more control, as we had to tune fo
 | fit_intercept | False |
 | max_iter | 1344 |
 
+5. Running a new model with these tuned hyperparameters gave the following results:
