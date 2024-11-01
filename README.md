@@ -21,6 +21,7 @@ I produced two notebooks for this project, one for the [EDA](project2_eda.ipynb)
   * [Figure 3]: Correlation of feature variables with target](#figure-3)
   * [What about Scatterplots?](#scat)
 * [Modeling](#modeling)
+  * [Notes on project setup](#notes-setup) 
 
 ### The dataset<a name='the-dataset'></a>
 I am working with a phone call dataset that also has demographic information about the recipients:
@@ -75,3 +76,38 @@ Duration has the highest correlation with the target variable at over 0.4.
 ![Scatterplots are not helpful for this project](figures/2_pairplot.jpg)
 
 ## Modeling<a name='modeling'></a>
+_**`AutoSklearn` to  `Optuna` to `scikit-learn`: the Modeling Workflow**_
+I first used [`AutoSklearn`](#https://automl.github.io/auto-sklearn/master/#) to help me explore the ML algorithm landscape to identify the best-performing models for this particular dataset.
+Next, In order to find the best hyperparameters for our modeling, used [`Optuna`](#https://optuna.readthedocs.io/en/stable/index.html). This is similar to other hyperparameter search frameworks like [`Hyperopt`](#http://hyperopt.github.io/hyperopt/), which are designed to quickly and efficiently find the best hyperparameters for your dataset.
+Finally, we will use `sklearn` to build the final, optimized model.
+
+### Notes on project setup<a name='notes-setup'></a>
+We want to help the bank understand which customers are most likely to purchase the financial product. Knowing this would save the bank time and money. The dataset that we were given consists of demographic (and banking) data (like `age`,`job`,`marital`,and `balance`) as well as campaign-specific information (like `contact`,`day`,and `duration`).
+
+| Demographic and Banking Data | Campaign-Specific Data | Target Feature |
+|---|---|---|
+| `age` | `contact` | `y` |
+| `job` | `day` |  |
+| `marital` | `month` |  |
+| `education` | `duration` |  |
+| `default` | `campaign` |  |
+| `balance` |  |  |
+| `housing` |  |  |
+| `loan` |  |  |
+
+We want to build a three-layered ML system that helps answer the project goals:
+1. Understand which kinds of customers that they should call
+ 1. I will **not** give the model access to the campaign call data
+1. After the initial calls, understand which customers the company should keep calling
+ 1. Give the model access to the campaign call data
+1. Build a model using unsupervised learning to learn about clusters of customers in the dataset
+
+**Layer 1**:  
+Use `X_1` to model which customers to make calls to. We are training a model that does not know any call data, so this is *before* making calls.
+
+**Layer 2**:  
+Use the full `X` dataset (for clarity in its use in the layer flow, we'll be using `X_2` to model which customers the company should keep calling.
+
+**Layer 3**:  
+Use unsupervised learning to uncover how the customers are grouped.
+
