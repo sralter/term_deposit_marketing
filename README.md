@@ -8,7 +8,9 @@ Designing a model that predicts which customers will most likely purchase a term
 ## Overview
 
 ### Table of Contents
-
+* [Summary](#summary)
+* [Overview](#overview)
+* [The dataset](#the-dataset)
 
 ### The dataset
 I am working with a phone call dataset that also has demographic information about the recipients:
@@ -47,4 +49,9 @@ Of all 40000 customers, a little more than 7% received loans. This points to a v
 With 13 columns, there was a lot of data to go through. We'll look at bar charts of the amount of customers within each categorical column, separated into successful and failed campaigns [Figure 1](#figure-1), boxplots of the continuous columns [Figure 2](#figure-2), and a correlation figure showing each OneHotEncoded column against the target, `y` [Figure 3](#figure-3). Note: the columns were OneHotEncoded so that each column as shown in the figure refers to one category within a column. For example, there are four categories for highest level of education attained (primary, secondary, tertiary) and a category for customers with unknown education level. The OneHotEncoded version of this column would have a separate column for education_primary, with those that only possess that level of education getting encoded as a 1 and the rest getting a 0.
 
 ### Figure 1
-![Count of customers between successful and and failed campaigns](images/2_countcategorical.jpg)
+![Count of customers between successful and and failed campaigns](figures/2_countcategorical.jpg)
+
+### Figure 2
+![Boxplots of numerical columns in dataset, separated by successful and failed campaigns](figures/2_countcategorical.jpg)
+
+
