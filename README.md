@@ -21,8 +21,8 @@ I produced two notebooks for this project, one for the [EDA](project2_eda.ipynb)
   * [Figure 3]: Correlation of feature variables with target](#figure-3)
   * [What about Scatterplots?](#scat)
 * [Modeling](#modeling)
-  * [Notes on project setup](#notes-setup) 
-
+  * [Notes on project setup](#notes-setup)
+  * [Layer 1](#l1): Using only the demographic and banking data to simulate customers that haven't been contacted by the bank yet.
 ### The dataset<a name='the-dataset'></a>
 I am working with a phone call dataset that also has demographic information about the recipients:
 | Column | Data Type | Comments |
@@ -77,6 +77,7 @@ Duration has the highest correlation with the target variable at over 0.4.
 
 ## Modeling<a name='modeling'></a>
 _**`AutoSklearn` to  `Optuna` to `scikit-learn`: the Modeling Workflow**_
+
 I first used [`AutoSklearn`](#https://automl.github.io/auto-sklearn/master/#) to help me explore the ML algorithm landscape to identify the best-performing models for this particular dataset.
 Next, In order to find the best hyperparameters for our modeling, used [`Optuna`](#https://optuna.readthedocs.io/en/stable/index.html). This is similar to other hyperparameter search frameworks like [`Hyperopt`](#http://hyperopt.github.io/hyperopt/), which are designed to quickly and efficiently find the best hyperparameters for your dataset.
 Finally, we will use `sklearn` to build the final, optimized model.
@@ -111,3 +112,7 @@ Use the full `X` dataset (for clarity in its use in the layer flow, we'll be usi
 **Layer 3**:  
 Use unsupervised learning to uncover how the customers are grouped.
 
+### L1<a name='l1'></a>
+I wrote a function that utilized AutoSklearn to spend 60 minutes perfoming a fitting and evaluation of the models. The function then returned a list of models that achieved a high accuracy.
+
+However, with our balanced dataset, we needed more control, as we had to tune for recall. I decided that the best course of action was to run a [grid search](#https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.GridSearchCV.html) of sorts. I created a list of scaling techniques, like `StandardScaler`(#), a list of sampling techniques, like `RandomOverSampler`(#) or `SMOTETomek`(#), and a list of classifiers to test, like `RandomForestClassifier` or [`LGBMClassifier`](#)
