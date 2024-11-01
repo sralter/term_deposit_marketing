@@ -21,6 +21,9 @@ I produced two notebooks for this project, one for the [EDA](project2_eda.ipynb)
   * [Figure 3]: Correlation of feature variables with target](#figure-3)
   * [What about Scatterplots?](#scat)
 * [Modeling](#modeling)
+  * [Notes on project setup](#notes-setup)
+  * [Layer 1](#l1): Using only the demographic and banking data to simulate customers that haven't been contacted by the bank yet.
+  * 
 
 ### The dataset<a name='the-dataset'></a>
 I am working with a phone call dataset that also has demographic information about the recipients:
@@ -75,3 +78,78 @@ Duration has the highest correlation with the target variable at over 0.4.
 ![Scatterplots are not helpful for this project](figures/2_pairplot.jpg)
 
 ## Modeling<a name='modeling'></a>
+For the modeling, I used random seed: 4769
+
+_**`AutoSklearn` to  `Optuna` to `scikit-learn`: the Modeling Workflow**_
+
+I first used [`AutoSklearn`](#https://automl.github.io/auto-sklearn/master/#) to help me explore the ML algorithm landscape to identify the best-performing models for this particular dataset.
+Next, In order to find the best hyperparameters for our modeling, used [`Optuna`](#https://optuna.readthedocs.io/en/stable/index.html). This is similar to other hyperparameter search frameworks like [`Hyperopt`](#http://hyperopt.github.io/hyperopt/), which are designed to quickly and efficiently find the best hyperparameters for your dataset.
+Finally, we will use `sklearn` to build the final, optimized model.
+
+### Notes on project setup<a name='notes-setup'></a>
+We want to help the bank understand which customers are most likely to purchase the financial product. Knowing this would save the bank time and money. The dataset that we were given consists of demographic (and banking) data (like `age`,`job`,`marital`,and `balance`) as well as campaign-specific information (like `contact`,`day`,and `duration`).
+
+| Demographic and Banking Data | Campaign-Specific Data | Target Feature |
+|---|---|---|
+| `age` | `contact` | `y` |
+| `job` | `day` |  |
+| `marital` | `month` |  |
+| `education` | `duration` |  |
+| `default` | `campaign` |  |
+| `balance` |  |  |
+| `housing` |  |  |
+| `loan` |  |  |
+
+We want to build a three-layered ML system that helps answer the project goals:
+1. Understand which kinds of customers that they should call
+ 1. I will **not** give the model access to the campaign call data
+1. After the initial calls, understand which customers the company should keep calling
+ 1. Give the model access to the campaign call data
+1. Build a model using unsupervised learning to learn about clusters of customers in the dataset
+
+**Layer 1**:  
+Use `X_1` to model which customers to make calls to. We are training a model that does not know any call data, so this is *before* making calls.
+
+**Layer 2**:  
+Use the full `X` dataset (for clarity in its use in the layer flow, we'll be using `X_2` to model which customers the company should keep calling.
+
+**Layer 3**:  
+Use unsupervised learning to uncover how the customers are grouped.
+
+### L1 <a name='l1'></a>
+I wrote a function that utilized AutoSklearn to spend 60 minutes perfoming a fitting and evaluation of the models. The function then returned a list of models that achieved a high accuracy.
+
+However, with our balanced dataset, we needed more control, as we had to tune for recall. I decided that the best course of action was to: 
+1. Run a [grid search](#https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.GridSearchCV.html) of sorts. I created a list of scaling techniques, like [`StandardScaler`](#https://scikit-learn.org/1.5/modules/generated/sklearn.preprocessing.StandardScaler.html), a list of sampling techniques, like [`RandomOverSampler`](#https://imbalanced-learn.org/stable/references/generated/imblearn.over_sampling.RandomOverSampler.html) or [`SMOTETomek`](#https://imbalanced-learn.org/dev/references/generated/imblearn.combine.SMOTETomek.html), and a list of classifiers to test, like [`RandomForestClassifier`](#https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html) or [`LGBMClassifier`](#https://lightgbm.readthedocs.io/en/latest/pythonapi/lightgbm.LGBMClassifier.html).
+2. Using nested `for` loops, I ran through each technique and saved the results to a dictionary.
+3. I extracted the best metric from the results dictionary.
+  * A best recall score of over 87% was found with using no scalers, the SMOTE resampling method, and the [SGDClassifier](#https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.SGDClassifier.html) model:
+
+| Class | Precision | Recall | F1-Score | Support |
+|---|---|---|---|---|
+| 0 | 0.95 | 0.19 | 0.31 | 7414 |
+| 1 | 0.08 | 0.87 | 0.14 | 586 |
+| Accuracy |  |  | 0.24 | 8000 |
+| Macro Avg | 0.51 | 0.53 | 0.23 | 8000 |
+| Weighted Avg | 0.89 | 0.24 | 0.30 | 8000 |
+
+[Confusion Matrix #1](figures/2_l1_cm1.jpg)
+4. The results pointed me in the direction of which scaler, sampling technique, and model I should use to optimize with Optuna.
+  * After 100 trials, I found these parameters, which gave a training recall score of almost 95%:
+
+| Hyperparameter Name | Hyperparameter Value |
+|---|---|
+| penalty | elasticnet |
+| l1_ratio | 0.9665372247163372 |
+| loss | modified_huber |
+| tol | 75.52719927740569 |
+| learning_rate | invscaling |
+| eta0 | 0.7274942852090539 |
+| power_t | 647.2058587404654 |
+| early_stopping | True |
+| validation_fraction | 0.3765902841689254 |
+| alpha | 7.181611953044439e-07 |
+| fit_intercept | False |
+| max_iter | 1344 |
+
+5. Running a new model with these tuned hyperparameters gave the following results:
