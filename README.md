@@ -134,6 +134,7 @@ However, with our balanced dataset, we needed more control, as we had to tune fo
 | Weighted Avg | 0.89 | 0.24 | 0.30 | 8000 |
 
 [Confusion Matrix #1](figures/2_l1_cm1.jpg)
+
 4. The results pointed me in the direction of which scaler, sampling technique, and model I should use to optimize with Optuna.
   * After 100 trials, I found these parameters, which gave a training recall score of almost 95%:
 
