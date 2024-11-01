@@ -23,6 +23,8 @@ I produced two notebooks for this project, one for the [EDA](project2_eda.ipynb)
 * [Modeling](#modeling)
   * [Notes on project setup](#notes-setup)
   * [Layer 1](#l1): Using only the demographic and banking data to simulate customers that haven't been contacted by the bank yet.
+  * 
+
 ### The dataset<a name='the-dataset'></a>
 I am working with a phone call dataset that also has demographic information about the recipients:
 | Column | Data Type | Comments |
@@ -112,7 +114,21 @@ Use the full `X` dataset (for clarity in its use in the layer flow, we'll be usi
 **Layer 3**:  
 Use unsupervised learning to uncover how the customers are grouped.
 
-### L1<a name='l1'></a>
+### L1 <a name='l1'></a>
 I wrote a function that utilized AutoSklearn to spend 60 minutes perfoming a fitting and evaluation of the models. The function then returned a list of models that achieved a high accuracy.
 
-However, with our balanced dataset, we needed more control, as we had to tune for recall. I decided that the best course of action was to run a [grid search](#https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.GridSearchCV.html) of sorts. I created a list of scaling techniques, like `StandardScaler`(#), a list of sampling techniques, like `RandomOverSampler`(#) or `SMOTETomek`(#), and a list of classifiers to test, like `RandomForestClassifier` or [`LGBMClassifier`](#)
+However, with our balanced dataset, we needed more control, as we had to tune for recall. I decided that the best course of action was to 
+1. Run a [grid search](#https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.GridSearchCV.html) of sorts. I created a list of scaling techniques, like [`StandardScaler`](#https://scikit-learn.org/1.5/modules/generated/sklearn.preprocessing.StandardScaler.html), a list of sampling techniques, like [`RandomOverSampler`](#https://imbalanced-learn.org/stable/references/generated/imblearn.over_sampling.RandomOverSampler.html) or [`SMOTETomek`](#https://imbalanced-learn.org/dev/references/generated/imblearn.combine.SMOTETomek.html), and a list of classifiers to test, like [`RandomForestClassifier`](#https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html) or [`LGBMClassifier`](#https://lightgbm.readthedocs.io/en/latest/pythonapi/lightgbm.LGBMClassifier.html).
+2. Using nested `for` loops, I ran through each technique and saved the results to a dictionary.
+3. I extracted the best metric from the results dictionary.
+4. The results pointed me in the direction of which scaler, sampling technique, and model I should use to optimize with Optuna.
+  * A best recall score of over 87% was found with using no scalers, the SMOTE resampling method, and the SGDClassifier model:
+
+| Class | Precision | Recall | F1-Score | Support |
+|---|---|---|---|---|
+| 0 | 0.95 | 0.19 | 0.31 | 7414 |
+| 1 | 0.08 | 0.87 | 0.14 | 586 |
+| Accuracy |  |  | 0.24 | 8000 |
+| Macro Avg | 0.51 | 0.53 | 0.23 | 8000 |
+| Weighted Avg | 0.89 | 0.24 | 0.30 | 8000 |
+
