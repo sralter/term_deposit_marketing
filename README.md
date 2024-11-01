@@ -7,7 +7,8 @@ Designing a model that predicts which customers will most likely purchase a term
 
 ## Overview
 
-Go [here](#
+### Table of Contents
+
 
 ### The dataset
 I am working with a phone call dataset that also has demographic information about the recipients:
