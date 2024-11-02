@@ -10,7 +10,7 @@ I produced two notebooks for this project, one for the [EDA](project2_eda.ipynb)
 * [EDA](#eda)
 * [Modeling](#modeling)
 
-### Table of Contents
+### Table of Contents<a name='toc'></a>
 * [Summary](#summary)
 * [Overview](#overview)
 * [The dataset](#the-dataset)
@@ -26,6 +26,7 @@ I produced two notebooks for this project, one for the [EDA](project2_eda.ipynb)
   * 
 
 ### The dataset<a name='the-dataset'></a>
+[Back to top](#toc)
 I am working with a phone call dataset that also has demographic information about the recipients:
 | Column | Data Type | Comments |
 |---|---|---|
@@ -46,6 +47,7 @@ I am working with a phone call dataset that also has demographic information abo
 The final column, `y`, is the target of the dataset and shows whether the client subscribed to a term deposit.
 
 ### Goals <a name='goals'></a>
+[Back to top](#toc)
 The startup is hoping that I can **achieve ≥81% accuracy** using a 5-fold cross validation strategy, taking the average performance score.
 
 Bonus goals are:
@@ -55,6 +57,7 @@ Bonus goals are:
   * Which feature should the startup focus on?
 
 ## EDA <a name='eda'></a>
+[Back to top](#toc)
 There are 40000 rows and 14 columns in the datset, and it arrived to me clean, with no null values.
 
 Of all 40000 customers, a little more than 7% received loans. This points to a very large class-imbalance in the datsaet.
@@ -62,22 +65,27 @@ Of all 40000 customers, a little more than 7% received loans. This points to a v
 With 13 columns, there was a lot of data to go through. We'll look at barplots of the amount of customers within each categorical column, separated into successful and failed campaigns [Figure 1](#figure-1), boxplots of the continuous columns [Figure 2](#figure-2), and a figure showing the correlatoin between each OneHotEncoded column against the target, `y` [Figure 3](#figure-3). Note: the columns were OneHotEncoded so that each column as shown in the figure refers to one category within a column. For example, there are four categories for highest level of education attained (primary, secondary, tertiary) and a category for customers with unknown education level. The OneHotEncoded version of this column would have a separate column for education_primary, with those that only possess that level of education getting encoded as a 1 and the rest getting a 0.
 
 ### Figure 1<a name='figure-1'></a>
+[Back to top](#toc)
 ![Barplots of count of customers between successful and and failed campaigns](figures/2_countcategorical.jpg)
 Although the raw numbers differ drastically between successful and failed campaigns, the patterns are similar for most of the features. Also notable is that there were no calls made to customers in the month of September.
 
 ### Figure 2<a name='figure-2'></a>
+[Back to top](#toc)
 ![Boxplots of numerical columns in dataset, separated by successful and failed campaigns](figures/2_boxplots.jpg)
 Duration does indeed seem different, though recall that this feature is describing how long the last phone call was with the customer. It may not tell us that much.
 
 ### Figure 3<a name='figure-3'></a>
+[Back to top](#toc)
 ![Correlation of feature variables with target](figures/2_corr_y.jpg)
 Duration has the highest correlation with the target variable at over 0.4.
 
 ### Scatterplots?<a name='scat'></a>
+[Back to top](#toc)
 **What about scatterplots?** you may ask. **My response**: Scatterplots did not seem to give us much insight. The data are very dispersed and a pattern does not readily emerge:
 ![Scatterplots are not helpful for this project](figures/2_pairplot.jpg)
 
 ## Modeling<a name='modeling'></a>
+[Back to top](#toc)
 For the modeling, I used random seed: 4769
 
 _**`AutoSklearn` to  `Optuna` to `scikit-learn`: the Modeling Workflow**_
@@ -87,6 +95,7 @@ Next, In order to find the best hyperparameters for our modeling, used [`Optuna`
 Finally, we will use `sklearn` to build the final, optimized model.
 
 ### Notes on project setup<a name='notes-setup'></a>
+[Back to top](#toc)
 We want to help the bank understand which customers are most likely to purchase the financial product. Knowing this would save the bank time and money. The dataset that we were given consists of demographic (and banking) data (like `age`,`job`,`marital`,and `balance`) as well as campaign-specific information (like `contact`,`day`,and `duration`).
 
 | Demographic and Banking Data | Campaign-Specific Data | Target Feature |
@@ -117,9 +126,10 @@ Use the full `X` dataset (for clarity in its use in the layer flow, we'll be usi
 Use unsupervised learning to uncover how the customers are grouped.
 
 ### L1 <a name='l1'></a>
+[Back to top](#toc)
 I wrote a function that utilized AutoSklearn to spend 60 minutes perfoming a fitting and evaluation of the models. The function then returned a list of models that achieved a high accuracy.
 
-However, with our balanced dataset, we needed more control, as we had to tune for recall. I decided that the best course of action was to: 
+However, with our balanced dataset, we needed more control, as we had to tune for recall. I decided that the best course of action was to do the following: 
 1. Run a [grid search](#https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.GridSearchCV.html) of sorts. I created a list of scaling techniques, like [`StandardScaler`](#https://scikit-learn.org/1.5/modules/generated/sklearn.preprocessing.StandardScaler.html), a list of sampling techniques, like [`RandomOverSampler`](#https://imbalanced-learn.org/stable/references/generated/imblearn.over_sampling.RandomOverSampler.html) or [`SMOTETomek`](#https://imbalanced-learn.org/dev/references/generated/imblearn.combine.SMOTETomek.html), and a list of classifiers to test, like [`RandomForestClassifier`](#https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html) or [`LGBMClassifier`](#https://lightgbm.readthedocs.io/en/latest/pythonapi/lightgbm.LGBMClassifier.html).
 2. Using nested `for` loops, I ran through each technique and saved the results to a dictionary.
 3. I extracted the best metric from the results dictionary.
@@ -133,7 +143,7 @@ However, with our balanced dataset, we needed more control, as we had to tune fo
 | Macro Avg | 0.51 | 0.53 | 0.23 | 8000 |
 | Weighted Avg | 0.89 | 0.24 | 0.30 | 8000 |
 
-[Confusion Matrix #1](figures/2_l1_cm1.jpg)
+![Confusion Matrix #1](figures/2_l1_cm1.jpg)
 
 4. The results pointed me in the direction of which scaler, sampling technique, and model I should use to optimize with Optuna.
   * After 100 trials, I found these parameters, which gave a training recall score of almost 95%:
@@ -154,3 +164,24 @@ However, with our balanced dataset, we needed more control, as we had to tune fo
 | max_iter | 1344 |
 
 5. Running a new model with these tuned hyperparameters gave the following results:
+
+| Class | Precision | Recall | F1-Score | Support |
+|---|---|---|---|---|
+| 0 | 0.95 | 0.10 | 0.18 | 7414 |
+| 1 | 0.08 | 0.94 | 0.14 | 586 |
+| Accuracy |  |  | 0.16 | 8000 |
+| Macro Avg | 0.51 | 0.52 | 0.16 | 8000 |
+| Weighted Avg | 0.89 | 0.16 | 0.17 | 8000 |
+
+![Confusion Matrix #2](figures/2_l1_cm2.jpg)
+
+#### Interpreting the results<a name='l1-results'></a>
+* When precision for class 0 is 95%, that means when the model predicts a customer as a non-subscriber, it is correct 95% of the time.
+* A precision of 8% for class 1 indicates that the model is correctly predicting a customer as a subscriber 8% of the time. There are many false positives.
+* The recall for class 0 is 10%, which means that the model is only identifying 10% of the non-subscribers correctly.
+* A very high recall of 94% shows that the model identifies almost all of the actual subscribers correctly.
+
+**The take-home message is that this model is really good at predicting subscribers.**
+
+Now let's figure out how much time the company would save.
+
