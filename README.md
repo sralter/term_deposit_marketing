@@ -162,6 +162,8 @@ However, with our balanced dataset, we needed more control, as we had to tune fo
 | Macro Avg | 0.51 | 0.53 | 0.23 | 8000 |
 | Weighted Avg | 0.89 | 0.24 | 0.30 | 8000 |
 
+[Untuned, ideal model:](#untuned-ideal)  
+(Jump to the [tuned model](#tuned-ideal) below)  
 ![Confusion Matrix #1](figures/2_l1_cm1.jpg)
 
 4. The results pointed me in the direction of which scaler, sampling technique, and model I should use to optimize with Optuna.
@@ -192,6 +194,7 @@ However, with our balanced dataset, we needed more control, as we had to tune fo
 | Macro Avg | 0.51 | 0.52 | 0.16 | 8000 |
 | Weighted Avg | 0.89 | 0.16 | 0.17 | 8000 |
 
+[Tuned, ideal model](#tuned-ideal)
 ![Confusion Matrix #2](figures/2_l1_cm2.jpg)
 
 #### Interpreting the results<a name='l1-results'></a>
@@ -214,4 +217,5 @@ Now let's figure out how much time the company would save.
 * Without the model, the company would have to call all 8000 customers:
   * 8000 * 4.25 = 33,976 minutes without model
 * 33,976 call minutes without model - 30,795 call minutes with model = **3,181 minutes, or **53 hours**, or 9.36% of the total call time**.
-While 52 hours is a fine result, it's not that meaningful of a savings. How did the [untuned model](#Confusion Matrix #1), with ideal techniques perform?
+While 52 hours is a fine result, it's not that meaningful of a savings. How did the [untuned model](#untuned-ideal), with ideal techniques perform? It saved the company 103 hours, so over 18%, but the company missed 74 subsribers rather than just 38.
+
