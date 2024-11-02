@@ -23,10 +23,10 @@ I produced two notebooks for this project, one for the [EDA](project2_eda.ipynb)
 * [Modeling](#modeling)
   * [Notes on project setup](#notes-setup)
   * [Layer 1](#l1): Using only the demographic and banking data to simulate customers that haven't been contacted by the bank yet.
-  * 
+    * [Results] of Layer 1(#l1-results)
 
 ### The dataset<a name='the-dataset'></a>
-[Back to top](#toc)
+[Back to TOC](#toc)
 I am working with a phone call dataset that also has demographic information about the recipients:
 | Column | Data Type | Comments |
 |---|---|---|
@@ -47,7 +47,7 @@ I am working with a phone call dataset that also has demographic information abo
 The final column, `y`, is the target of the dataset and shows whether the client subscribed to a term deposit.
 
 ### Goals <a name='goals'></a>
-[Back to top](#toc)
+[Back to TOC](#toc)
 The startup is hoping that I can **achieve ≥81% accuracy** using a 5-fold cross validation strategy, taking the average performance score.
 
 Bonus goals are:
@@ -57,35 +57,54 @@ Bonus goals are:
   * Which feature should the startup focus on?
 
 ## EDA <a name='eda'></a>
-[Back to top](#toc)
+[Back to TOC](#toc)
 There are 40000 rows and 14 columns in the datset, and it arrived to me clean, with no null values.
 
 Of all 40000 customers, a little more than 7% received loans. This points to a very large class-imbalance in the datsaet.
 
 With 13 columns, there was a lot of data to go through. We'll look at barplots of the amount of customers within each categorical column, separated into successful and failed campaigns [Figure 1](#figure-1), boxplots of the continuous columns [Figure 2](#figure-2), and a figure showing the correlatoin between each OneHotEncoded column against the target, `y` [Figure 3](#figure-3). Note: the columns were OneHotEncoded so that each column as shown in the figure refers to one category within a column. For example, there are four categories for highest level of education attained (primary, secondary, tertiary) and a category for customers with unknown education level. The OneHotEncoded version of this column would have a separate column for education_primary, with those that only possess that level of education getting encoded as a 1 and the rest getting a 0.
 
+For the continuous columns, here's a statistical summary table:
+|       | age          | balance      | day          | duration     | campaign     |
+|-------|--------------|--------------|--------------|--------------|--------------|
+| count | 40000.000000 | 40000.000000 | 40000.000000 | 40000.000000 | 40000.000000 |
+| mean  | 40.544600    | 1274.277550  | 16.017225    | 254.824300   | 2.882175     |
+| std   | 9.641776     | 2903.769716  | 8.278127     | 259.366498   | 3.239051     |
+| min   | 19.000000    | -8019.000000 | 1.000000     | 0.000000     | 1.000000     |
+| 25%   | 33.000000    | 54.000000    | 8.000000     | 100.000000   | 1.000000     |
+| 50%   | 39.000000    | 407.000000   | 17.000000    | 175.000000   | 2.000000     |
+| 75%   | 48.000000    | 1319.000000  | 21.000000    | 313.000000   | 3.000000     |
+| max   | 95.000000    | 102127.000000| 31.000000    | 4918.000000  | 63.000000    |
+
+We can glean the following insights from this table:
+* The mean values for the `age`, `day`, and `campaign` columns are about equal to the 50th percentile
+  * The distribution of the data may be symmetric
+* The max value in each column besides `age` and `day` is much larger than the column's 75th percentile
+  * This suggests there could be outliers
+  * `age` and `day` are more or less categorical, so it makes sense that the max age is 95 and max day is 31
+
 ### Figure 1<a name='figure-1'></a>
-[Back to top](#toc)
+[Back to TOC](#toc)
 ![Barplots of count of customers between successful and and failed campaigns](figures/2_countcategorical.jpg)
 Although the raw numbers differ drastically between successful and failed campaigns, the patterns are similar for most of the features. Also notable is that there were no calls made to customers in the month of September.
 
 ### Figure 2<a name='figure-2'></a>
-[Back to top](#toc)
+[Back to TOC](#toc)
 ![Boxplots of numerical columns in dataset, separated by successful and failed campaigns](figures/2_boxplots.jpg)
 Duration does indeed seem different, though recall that this feature is describing how long the last phone call was with the customer. It may not tell us that much.
 
 ### Figure 3<a name='figure-3'></a>
-[Back to top](#toc)
+[Back to TOC](#toc)  
 ![Correlation of feature variables with target](figures/2_corr_y.jpg)
 Duration has the highest correlation with the target variable at over 0.4.
 
 ### Scatterplots?<a name='scat'></a>
-[Back to top](#toc)
+[Back to TOC](#toc)  
 **What about scatterplots?** you may ask. **My response**: Scatterplots did not seem to give us much insight. The data are very dispersed and a pattern does not readily emerge:
 ![Scatterplots are not helpful for this project](figures/2_pairplot.jpg)
 
 ## Modeling<a name='modeling'></a>
-[Back to top](#toc)
+[Back to TOC](#toc)  
 For the modeling, I used random seed: 4769
 
 _**`AutoSklearn` to  `Optuna` to `scikit-learn`: the Modeling Workflow**_
@@ -95,7 +114,7 @@ Next, In order to find the best hyperparameters for our modeling, used [`Optuna`
 Finally, we will use `sklearn` to build the final, optimized model.
 
 ### Notes on project setup<a name='notes-setup'></a>
-[Back to top](#toc)
+[Back to TOC](#toc)  
 We want to help the bank understand which customers are most likely to purchase the financial product. Knowing this would save the bank time and money. The dataset that we were given consists of demographic (and banking) data (like `age`,`job`,`marital`,and `balance`) as well as campaign-specific information (like `contact`,`day`,and `duration`).
 
 | Demographic and Banking Data | Campaign-Specific Data | Target Feature |
@@ -116,17 +135,17 @@ We want to build a three-layered ML system that helps answer the project goals:
  1. Give the model access to the campaign call data
 1. Build a model using unsupervised learning to learn about clusters of customers in the dataset
 
-**Layer 1**:  
+[**Layer 1**](#l1):    
 Use `X_1` to model which customers to make calls to. We are training a model that does not know any call data, so this is *before* making calls.
 
-**Layer 2**:  
+[**Layer 2**](#l2):  
 Use the full `X` dataset (for clarity in its use in the layer flow, we'll be using `X_2` to model which customers the company should keep calling.
 
-**Layer 3**:  
+[**Layer 3**](#l3):  
 Use unsupervised learning to uncover how the customers are grouped.
 
 ### L1 <a name='l1'></a>
-[Back to top](#toc)
+[Back to TOC](#toc)  
 I wrote a function that utilized AutoSklearn to spend 60 minutes perfoming a fitting and evaluation of the models. The function then returned a list of models that achieved a high accuracy.
 
 However, with our balanced dataset, we needed more control, as we had to tune for recall. I decided that the best course of action was to do the following: 
@@ -176,12 +195,23 @@ However, with our balanced dataset, we needed more control, as we had to tune fo
 ![Confusion Matrix #2](figures/2_l1_cm2.jpg)
 
 #### Interpreting the results<a name='l1-results'></a>
+[Back to TOC](#toc)
 * When precision for class 0 is 95%, that means when the model predicts a customer as a non-subscriber, it is correct 95% of the time.
 * A precision of 8% for class 1 indicates that the model is correctly predicting a customer as a subscriber 8% of the time. There are many false positives.
 * The recall for class 0 is 10%, which means that the model is only identifying 10% of the non-subscribers correctly.
 * A very high recall of 94% shows that the model identifies almost all of the actual subscribers correctly.
-
-**The take-home message is that this model is really good at predicting subscribers.**
+* **The take-home message: this model is really good at predicting subscribers.**
 
 Now let's figure out how much time the company would save.
-
+* The mean call time is about 4.25 minutes
+* With 8000 customers in the test set, that is a total call time of 566.67 hours that the company needs to call all the customers
+* TP + FP = Total calls with model
+  * TP = 548
+  * FP = 6703
+  * Total calls with model = 7251
+* Total calls with model * Mean call time = Total minutes with model
+  * Total minutes with model minutes = 30,795
+* Without the model, the company would have to call all 8000 customers:
+  * 8000 * 4.25 = 33,976 minutes without model
+* 33,976 call minutes without model - 30,795 call minutes with model = **3,181 minutes, or **53 hours**, or 9.36% of the total call time**.
+While 52 hours is a fine result, it's not that meaningful of a savings. How did the [untuned model](#Confusion Matrix #1), with ideal techniques perform?
