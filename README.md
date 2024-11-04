@@ -3,7 +3,7 @@ By Samuel Alter
 Apziva: G3SuQYZYrFt9dwF3
 
 ## Summary<a name='summary'></a>
-This project used the following frameworks - Pandas, NumPy, Matplotlib, Seaborn, Optuna, and Scikit-learn - to analyze a phone call dataset and train a model that would **save a company over 71% of their time**. The dataset has within it demographic and banking data on their customers. By showing the model only certain columns, we can simulate the model learning which customers will most likely purchase a financial product of the bank.
+This project used the following frameworks - Pandas, NumPy, Matplotlib, Seaborn, Optuna, and Scikit-learn - to analyze a phone call dataset from a bank and train a model that would **save the bank over 71% of their time**. The dataset has within it demographic and banking data on their customers. By showing the model only certain columns, we can simulate the model learning which customers will most likely purchase a financial product of the bank.
 * There are three phases to the project
   * Layer 1 involves simulating ignorance on which customer eventually was approved and bought the product
   * Layer 2 involves the full dataset to simulate which customers the bank should continue to call to secure the sale
