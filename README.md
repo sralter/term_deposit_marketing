@@ -145,7 +145,7 @@ Use the full `X` dataset (for clarity in its use in the layer flow, we'll be usi
 [**Layer 3**](#l3):  
 Use unsupervised learning to uncover how the customers are grouped.
 
-### L1 <a name='l1'></a>
+### Layer 1 <a name='l1'></a>
 [Back to TOC](#toc)  
 I wrote a function that utilized AutoSklearn to spend 60 minutes perfoming a fitting and evaluation of the models. The function then returned a list of models that achieved a high accuracy.
 
@@ -198,7 +198,7 @@ However, with our balanced dataset, we needed more control, as we had to tune fo
 [Tuned, ideal model](#tuned-ideal)
 ![Confusion Matrix #2](figures/2_l1_cm2.jpg)
 
-#### Interpreting the results<a name='l1-results'></a>
+#### Interpreting the results <a name='l1-results'></a>
 [Back to TOC](#toc)
 * When precision for class 0 is 95%, that means when the model predicts a customer as a non-subscriber, it is correct 95% of the time.
 * A precision of 8% for class 1 indicates that the model is correctly predicting a customer as a subscriber 8% of the time. There are many false positives.
@@ -220,7 +220,7 @@ Now let's figure out how much time the company would save.
 * 33,976 call minutes without model - 30,795 call minutes with model = **3,181 minutes, or **53 hours**, or 9.36% of the total call time**.
 While 52 hours is a fine result, it's not that meaningful of a savings. How did the [untuned model](#untuned-ideal), with ideal techniques perform? It saved the company 103 hours, so over 18%, but the company missed 74 subsribers rather than just 38.
 
-#### Other metrics to optimize: F1 Score<a name='f1'></a>
+#### Other metrics to optimize: F1 Score <a name='f1'></a>
 [Back to TOC](#toc)  
 It was at this point that I thought about other metrics to optimize. Sure, we want to focus on the recall for class 1, because that captures the subscribers. But we also want to be mindful of saving the company time overall as well. The F1 Score could be helpful here, as it is a metric that is the harmonic mean of the recall and precision. Would this be the best balancing of the tradeoff between precision and recall? The F1 Score may also be better at accomodating the class distribution.
 ![Equations for precision and recall](figures/precision_and_recall.jpg)
@@ -248,4 +248,22 @@ To illustrate this relationship, I generated a list of threshold values and save
 
 Running the model on the testing set with the threshold value to yield a 90% recall score for class 1 saves the company just over 74 hours, or almost 13.1% of their time. They only miss 56 subscribers.
 
-#### Final analysis: the full dataset<a name='final_l1'></a>
+#### Final analysis: the full dataset <a name='final_l1'></a>
+Now it comes to the last step: running the model on the full dataset. I have gone through several models, tuned to a couple metrics, and iterated to find an optimal threshold value. This last step is crucial because it will show the company what time they can save overall. We will now run a new model first by training it on a train set that has been resampled, then testing it on the full dataset that has been encoded and scaled but not resampled.
+
+| Class | Precision | Recall | F1-Score | Support |
+|---|---|---|---|---|
+| 0 | 0.97 | 0.15 | 0.26 | 37104 |
+| 1 | 0.08 | 0.94 | 0.15 | 2896 |
+| Accuracy |  |  | 0.21 | 8000 |
+| Macro Avg | 0.52 | 0.54 | 0.20 | 40000 |
+| Weighted Avg | 0.90 | 0.21 | 0.25 | 40000 |
+
+![Final confusion matrix on full dataset](figures/2_l1_final_95.png)
+
+_**This model will save the company over 400 hours, or 71% of their time, while letting only 6% of their customers through.**_
+
+### Layer 2 <a name='l2'></a>
+[Back to TOC](#toc)
+
+Under construction...
