@@ -3,7 +3,11 @@ By Samuel Alter
 Apziva: G3SuQYZYrFt9dwF3
 
 ## Summary<a name='summary'></a>
-Designing a model that predicts which customers will most likely purchase a term deposit loan.
+This project used the following frameworks - Pandas, NumPy, Matplotlib, Seaborn, Optuna, and Scikit-learn - to analyze a phone call dataset and train a model that would **save a company over 71% of their time**. The dataset has within it demographic and banking data on their customers. By showing the model only certain columns, we can simulate the model learning which customers will most likely purchase a financial product of the bank.
+* There are three phases to the project
+  * Layer 1 involves simulating ignorance on which customer eventually was approved and bought the product
+  * Layer 2 involves the full dataset to simulate which customers the bank should continue to call to secure the sale
+  * Layer 3 involves unsupervised learning to figure out the groups of the customers
 
 ## Overview<a name='overview'></a>
 I produced two notebooks for this project, one for the [EDA](project2_eda.ipynb) and one for the [Modeling](project2_modeling.ipynb). This being the ReadMe, you can jump to those sections that are found below.
@@ -269,7 +273,7 @@ Now it comes to the last step: running the model on the full dataset. I have gon
 
 ![Final confusion matrix on full dataset](figures/2_l1_final_95.png)
 
-_**This model will save the company over 400 hours, or 71% of their time, while letting only 6% of their customers through.**_
+_**This model will save the company over 400 hours, or over 71% of their time, while letting only 6% of their customers through.**_
 
 ### Layer 2 <a name='l2'></a>
 [Back to TOC](#toc)
