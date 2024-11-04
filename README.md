@@ -164,8 +164,11 @@ However, with our balanced dataset, we needed more control, as we had to tune fo
 | Weighted Avg | 0.89 | 0.24 | 0.30 | 8000 |
 
 [Untuned, ideal model:](#untuned-ideal)  
+
 (Jump to the [tuned model](#tuned-ideal) below)  
+
 ![Confusion Matrix #1](figures/2_l1_cm1.jpg)
+
 
 4. The results pointed me in the direction of which scaler, sampling technique, and model I should use to optimize with Optuna.
   * After 100 trials, I found these parameters, which gave a training recall score of almost 95%:
@@ -196,6 +199,7 @@ However, with our balanced dataset, we needed more control, as we had to tune fo
 | Weighted Avg | 0.89 | 0.16 | 0.17 | 8000 |
 
 [Tuned, ideal model](#tuned-ideal)
+
 ![Confusion Matrix #2](figures/2_l1_cm2.jpg)
 
 #### Interpreting the results <a name='l1-results'></a>
@@ -223,8 +227,11 @@ While 52 hours is a fine result, it's not that meaningful of a savings. How did 
 #### Other metrics to optimize: F1 Score <a name='f1'></a>
 [Back to TOC](#toc)  
 It was at this point that I thought about other metrics to optimize. Sure, we want to focus on the recall for class 1, because that captures the subscribers. But we also want to be mindful of saving the company time overall as well. The F1 Score could be helpful here, as it is a metric that is the harmonic mean of the recall and precision. Would this be the best balancing of the tradeoff between precision and recall? The F1 Score may also be better at accomodating the class distribution.
+
 ![Equations for precision and recall](figures/precision_and_recall.jpg)
+
 ![Equation for F1-Score](figures/f1_score.png)
+
 Remember that TP = True positive, FP = False positive, TN = True negative, and FN = False negative.
 
 Using the same nested for loops as before, this time I extracted the best F1 Score result, and found that a MinMaxScaler with a SMOTE resampling technique on the LGBMClassifier was the best, and I got the following result:
@@ -244,6 +251,7 @@ This model saved the company almost 316 hours, or 55.8% of their time, but it mi
 What about utilizing a threshold value to tune the probability decision line for probabilities? If we can choose a better threshold, we may be able to control the cutoff point and settle with a tradeoff that we're comfortable with.
 
 To illustrate this relationship, I generated a list of threshold values and saved the result. I tracked the recall score for both class 0 and 1 as well as the true and false positive amount for class 1. The vertical line is at a threshold value that would produce a 90% recall score for class 1:
+
 ![Recall and Amount of TP and NP vs. Threshold Values](figures/2_l1_RecallTPNPThreshold_smote.png)
 
 Running the model on the testing set with the threshold value to yield a 90% recall score for class 1 saves the company just over 74 hours, or almost 13.1% of their time. They only miss 56 subscribers.
