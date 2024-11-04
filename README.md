@@ -1,5 +1,5 @@
 # Term Deposit Marketing - An Apziva Project (#2)
-By Samuel Alter
+By Samuel Alter  
 Apziva: G3SuQYZYrFt9dwF3
 
 ## Summary<a name='summary'></a>
