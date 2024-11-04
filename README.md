@@ -24,6 +24,7 @@ I produced two notebooks for this project, one for the [EDA](project2_eda.ipynb)
   * [Notes on project setup](#notes-setup)
   * [Layer 1](#l1): Using only the demographic and banking data to simulate customers that haven't been contacted by the bank yet.
     * [Results] of Layer 1(#l1-results)
+    * Other metrics to optimize: the [F1 Score](#f1)
 
 ### The dataset<a name='the-dataset'></a>
 [Back to TOC](#toc)
@@ -219,3 +220,32 @@ Now let's figure out how much time the company would save.
 * 33,976 call minutes without model - 30,795 call minutes with model = **3,181 minutes, or **53 hours**, or 9.36% of the total call time**.
 While 52 hours is a fine result, it's not that meaningful of a savings. How did the [untuned model](#untuned-ideal), with ideal techniques perform? It saved the company 103 hours, so over 18%, but the company missed 74 subsribers rather than just 38.
 
+#### Other metrics to optimize: F1 Score<a name='f1'></a>
+[Back to TOC](#toc)  
+It was at this point that I thought about other metrics to optimize. Sure, we want to focus on the recall for class 1, because that captures the subscribers. But we also want to be mindful of saving the company time overall as well. The F1 Score could be helpful here, as it is a metric that is the harmonic mean of the recall and precision. Would this be the best balancing of the tradeoff between precision and recall? The F1 Score may also be better at accomodating the class distribution.
+![Equations for precision and recall](figures/precision_and_recall.jpg)
+![Equation for F1-Score](figures/f1_score.png)
+Remember that TP = True positive, FP = False positive, TN = True negative, and FN = False negative.
+
+Using the same nested for loops as before, this time I extracted the best F1 Score result, and found that a MinMaxScaler with a SMOTE resampling technique on the LGBMClassifier was the best, and I got the following result:
+
+| Class | Precision | Recall | F1-Score | Support |
+|---|---|---|---|---|
+| 0 | 0.94 | 0.57 | 0.71 | 7414 |
+| 1 | 0.09 | 0.56 | 0.16 | 586 |
+| Accuracy |  |  | 0.57 | 8000 |
+| Macro Avg | 0.52 | 0.57 | 0.43 | 8000 |
+| Weighted Avg | 0.88 | 0.57 | 0.67 | 8000 |
+
+![Confusion matrix for F1 Score on Untuned Model](figures/2_l1_f1_1.png)
+
+This model saved the company almost 316 hours, or 55.8% of their time, but it missed about half of their true customers. A threshold value of 0.005 produced the best recall score of this entire project (96%), and only missing 25 customers. This model, however, would only save the company just under 40 hours, or almost 7% of their total time.
+
+What about utilizing a threshold value to tune the probability decision line for probabilities? If we can choose a better threshold, we may be able to control the cutoff point and settle with a tradeoff that we're comfortable with.
+
+To illustrate this relationship, I generated a list of threshold values and saved the result. I tracked the recall score for both class 0 and 1 as well as the true and false positive amount for class 1. The vertical line is at a threshold value that would produce a 90% recall score for class 1:
+![Recall and Amount of TP and NP vs. Threshold Values](figures/2_l1_RecallTPNPThreshold_smote.png)
+
+Running the model on the testing set with the threshold value to yield a 90% recall score for class 1 saves the company just over 74 hours, or almost 13.1% of their time. They only miss 56 subscribers.
+
+#### Final analysis: the full dataset<a name='final_l1'></a>
