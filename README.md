@@ -3,11 +3,15 @@ By Samuel Alter
 Apziva: G3SuQYZYrFt9dwF3
 
 ## Summary<a name='summary'></a>
-This project used the following frameworks - Pandas, NumPy, Matplotlib, Seaborn, Optuna, and Scikit-learn - to analyze a phone call dataset from a bank and train a model that would **save the bank over 71% of their time**. The dataset has within it demographic and banking data on their customers. By showing the model only certain columns, we can simulate the model learning which customers will most likely purchase a financial product of the bank.
+This project used the following frameworks - Pandas, NumPy, Matplotlib, Seaborn, Optuna, and Scikit-learn - to analyze a phone call dataset from a bank and train models in an effort to help save the bank time. The dataset has within it demographic and banking data on their customers. By showing the model only certain columns, we can simulate the model learning which customers will most likely purchase a financial product of the bank.
 * There are three phases to the project
   * Layer 1 involves simulating ignorance on which customer eventually was approved and bought the product
   * Layer 2 involves the full dataset to simulate which customers the bank should continue to call to secure the sale
   * Layer 3 involves unsupervised learning to figure out the groups of the customers
+
+* Important conclusions:
+  * Layer 1: A model achieved **over 403 hours of time savings**, or 14.25% of their total time. The model only missed 6% of their eventual subscribers.
+  * Layer 2: I was able to train a model that **saved over 2,600 hours, or 93% of their total time**. The model only missed 11% of their total subscribers. 
 
 ## Overview<a name='overview'></a>
 I produced two notebooks for this project, one for the [EDA](project2_eda.ipynb) and one for the [Modeling](project2_modeling.ipynb). This being the ReadMe, you can jump to those sections that are found below.
@@ -260,22 +264,32 @@ To illustrate this relationship, I generated a list of threshold values and save
 
 Running the model on the testing set with the threshold value to yield a 90% recall score for class 1 saves the company just over 74 hours, or almost 13.1% of their time. They only miss 56 subscribers.
 
-#### Final analysis: the full dataset <a name='final_l1'></a>
-Now it comes to the last step: running the model on the full dataset. I have gone through several models, tuned to a couple metrics, and iterated to find an optimal threshold value. This last step is crucial because it will show the company what time they can save overall. We will now run a new model first by training it on a train set that has been resampled, then testing it on the full dataset that has been encoded and scaled but not resampled.
-
-| Class | Precision | Recall | F1-Score | Support |
-|---|---|---|---|---|
-| 0 | 0.97 | 0.15 | 0.26 | 37104 |
-| 1 | 0.08 | 0.94 | 0.15 | 2896 |
-| Accuracy |  |  | 0.21 | 8000 |
-| Macro Avg | 0.52 | 0.54 | 0.20 | 40000 |
-| Weighted Avg | 0.90 | 0.21 | 0.25 | 40000 |
-
-![Final confusion matrix on full dataset](figures/2_l1_final_95.png)
-
-_**This model will save the company over 400 hours, or over 71% of their time, while letting only 6% of their customers through.**_
-
 ### Layer 2 <a name='l2'></a>
 [Back to TOC](#toc)
 
-Under construction...
+Now it comes to the last step: running the model on the full dataset. I have gone through several models, tuned to a couple metrics, and iterated to find an optimal threshold value. This last step is crucial because it will show the company what time they can save overall. We will now run a new model first by training it on a train set that has been resampled, then testing it on the full dataset that has been encoded and scaled but not resampled.
+
+When running the following specifications on the full dataset, we were able to get incredible time savings of almost 2,634 hours (or 109 days, 18 hours), which equates to more than 93% time savings had the company called every single individual in their dataset.
+
+Specifications:
+* OneHotEncode
+* StandardScaler
+* RandomOverSampler
+* RandomForestClassifier
+* 5-fold StratifiedKFold
+
+| Class | Precision | Recall | F1-Score | Support |
+|---|---|---|---|---|
+| 0 | 0.99 | 0.99 | 0.99 | 37104 |
+| 1 | 0.92 | 0.89 | 0.90 | 2896 |
+| Accuracy |  |  | 0.99 | 8000 |
+| Macro Avg | 0.96 | 0.94 | 0.95 | 40000 |
+| Weighted Avg | 0.99 | 0.99 | 0.99 | 40000 |
+
+![RandomForestClassifier on full dataset](figures/2_l2_full.jpg)
+
+_**This model will save the company almost 2,634 hours, or over 93% of their time, while letting only 11% of their customers through.**_
+
+### Layer 3 <a name='l3'></a>
+[Back to TOC](#toc)
+
