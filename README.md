@@ -260,22 +260,32 @@ To illustrate this relationship, I generated a list of threshold values and save
 
 Running the model on the testing set with the threshold value to yield a 90% recall score for class 1 saves the company just over 74 hours, or almost 13.1% of their time. They only miss 56 subscribers.
 
-#### Final analysis: the full dataset <a name='final_l1'></a>
-Now it comes to the last step: running the model on the full dataset. I have gone through several models, tuned to a couple metrics, and iterated to find an optimal threshold value. This last step is crucial because it will show the company what time they can save overall. We will now run a new model first by training it on a train set that has been resampled, then testing it on the full dataset that has been encoded and scaled but not resampled.
-
-| Class | Precision | Recall | F1-Score | Support |
-|---|---|---|---|---|
-| 0 | 0.97 | 0.15 | 0.26 | 37104 |
-| 1 | 0.08 | 0.94 | 0.15 | 2896 |
-| Accuracy |  |  | 0.21 | 8000 |
-| Macro Avg | 0.52 | 0.54 | 0.20 | 40000 |
-| Weighted Avg | 0.90 | 0.21 | 0.25 | 40000 |
-
-![Final confusion matrix on full dataset](figures/2_l1_final_95.png)
-
-_**This model will save the company over 400 hours, or over 71% of their time, while letting only 6% of their customers through.**_
-
 ### Layer 2 <a name='l2'></a>
 [Back to TOC](#toc)
 
-Under construction...
+Now it comes to the last step: running the model on the full dataset. I have gone through several models, tuned to a couple metrics, and iterated to find an optimal threshold value. This last step is crucial because it will show the company what time they can save overall. We will now run a new model first by training it on a train set that has been resampled, then testing it on the full dataset that has been encoded and scaled but not resampled.
+
+When running the following specifications on the full dataset, we were able to get incredible time savings of almost 2,634 hours (or 109 days, 18 hours), which equates to more than 93% time savings had the company called every single individual in their dataset.
+
+Specifications:
+* OneHotEncode
+* StandardScaler
+* RandomOverSampler
+* RandomForestClassifier
+* 5-fold StratifiedKFold
+
+| Class | Precision | Recall | F1-Score | Support |
+|---|---|---|---|---|
+| 0 | 0.99 | 0.99 | 0.99 | 37104 |
+| 1 | 0.92 | 0.89 | 0.90 | 2896 |
+| Accuracy |  |  | 0.99 | 8000 |
+| Macro Avg | 0.96 | 0.94 | 0.95 | 40000 |
+| Weighted Avg | 0.99 | 0.99 | 0.99 | 40000 |
+
+![RandomForestClassifier on full dataset](figures/2_l2_full.jpg)
+
+_**This model will save the company almost 2,634 hours, or over 93% of their time, while letting only 11% of their customers through.**_
+
+### Layer 3 <a name='l3'></a>
+[Back to TOC](#toc)
+
