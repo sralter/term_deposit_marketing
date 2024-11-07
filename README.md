@@ -286,10 +286,11 @@ Specifications:
 | Macro Avg | 0.96 | 0.94 | 0.95 | 40000 |
 | Weighted Avg | 0.99 | 0.99 | 0.99 | 40000 |
 
-![RandomForestClassifier on full dataset](figures/2_l2_full.jpg)
+![RandomForestClassifier on full dataset](figures/2_l2_full.png)
 
 _**This model will save the company almost 2,634 hours, or over 93% of their time, while letting only 11% of their customers through.**_
 
 ### Layer 3 <a name='l3'></a>
 [Back to TOC](#toc)
 
+Under construction...
