@@ -11,7 +11,8 @@ This project used the following frameworks - Pandas, NumPy, Matplotlib, Seaborn,
 
 * Important conclusions:
   * Layer 1: A model achieved **over 403 hours of time savings**, or 14.25% of their total time. The model only missed 6% of their eventual subscribers.
-  * Layer 2: I was able to train a model that **saved over 2,600 hours, or 93% of their total time**. The model only missed 11% of their total subscribers. 
+  * Layer 2: I was able to train a model that **saved over 2,600 hours, or 93% of their total time**. The model only missed 11% of their total subscribers.
+  * Layer 3: An elbow plot helped determine that the optimal number of customer clusters is five. You can see the summary statistics [here](#5-clusters)
 
 ## Overview<a name='overview'></a>
 I produced two notebooks for this project, one for the [EDA](project2_eda.ipynb) and one for the [Modeling](project2_modeling.ipynb). This being the ReadMe, you can jump to those sections that are found below.
@@ -33,6 +34,13 @@ I produced two notebooks for this project, one for the [EDA](project2_eda.ipynb)
   * [Layer 1](#l1): Using only the demographic and banking data to simulate customers that haven't been contacted by the bank yet.
     * [Results] of Layer 1(#l1-results)
     * Other metrics to optimize: the [F1 Score](#f1)
+  * [Layer 2])#l2): Training a model to predict the customers on the full dataset
+     [Feature Importances](feature-importances): Using the tree-based model to answer the question: Which features in the dataset are most important to predicting a likely customer?
+  * [Layer 3](#l3): Performing unsupervised learning to understand the grouping patterns of the bank's customers
+    * [Three Clusters](3-clusters): Using PCA to create three clusters in the successful customer dataset
+    * [Five Clusters](5-clusters): Using PCA to create five clusters in the successful customer dataset
+    * [Conclusion](conclusion): Five clusters were chosen as they were able to tell a richer story of the successful customers in the dataset
+   
 
 ### The dataset<a name='the-dataset'></a>
 [Back to TOC](#toc)
@@ -290,7 +298,103 @@ Specifications:
 
 _**This model will save the company almost 2,634 hours, or over 93% of their time, while letting only 11% of their customers through.**_
 
+Extracting the feature importances <a name='feature-importances'></a> from the model shows that **call duration**, **balance**, **day**, and **age** are very important decision points for the tree-based model. Duration has almost 47% of the total importance, far exceeding the other categories:
+
+| Feature | Importance |
+|---|---|
+| Duration | 46.77% |
+| Balance | 7.54% |
+| Day | 7.36% |
+| Age | 6.31% |
+
+The bank would do well to focus on these features for selecting customers or preparing to sell them the loan.
+
 ### Layer 3 <a name='l3'></a>
 [Back to TOC](#toc)
 
-Under construction...
+Now we have come to the final section for this project. We have trained models to predict which customers are likely to buy the term deposit loan, and we trained models that have helped the company understand who they should continue to call. We have one last question that still needs to be answered, namely: can we group the customers into clusters? This would help the bank understand which kind of customer they should target, ones that would very likely successfully purchase the loan.
+
+I prepared a new version of the dataset that was scaled using sklearn's `Normalize` rather than using sklearn's `StandardScaler`, as the resulting correlation plot showed better correlations with the continuous features like Duration and Balance:
+
+![Correlation matrix with encoded dataset](figures/2_l3_corrmatrix_norm.jpg)
+
+The dendrogram showed similar results that we got with the [feature importances](#feature-importances), showing the importance of Age and Balance, among others:
+
+![Normalized dataset dendrogram](figures/2_l3_dendrogram.jpg)
+
+Using KMeans to construct an elbow plot to determine the optimal number of clusters showed that [three](#3-clusters) or [five](#5-clusters) clusters gave a good representation of the total within-cluster sum of means, or inertia:
+
+![Elbow plot for optimal number of clusters using KMeans](figures/2_l3_elbow.jpg)
+
+#### Three Clusters <a name='3-clusters'></a>
+[Back to TOC](#toc)
+
+Using PCA, I reduced the dimensions to three. Then, out of PCA and TSNE, UMAP gave the most convincing plot for 3 clusters:
+
+![UMAP 2D representation of groups](figures/2_l3_umap3.jpg)
+
+Calculating some summary statistics for the clusters gave the following table:
+
+| Cluster Number | Attribute | Value |
+|---|---|---|
+| 1 | Median age: | 36 |
+|  | Median balance (Euro) | 22 |
+|  | Education level | Secondary |
+|  | Job category | Blue-Collar (21.5%) |
+|  | Marriage status | Married |
+| 2 | Median age: | 39 |
+|  | Median balance (Euro) | 2326 |
+|  | Education level | Tertiary |
+|  | Job category | Management (28.3%) |
+|  | Marriage status | Married |
+| 3 | Median age: | 37 |
+|  | Median balance (Euro) | 556 |
+|  | Education level | Secondary |
+|  | Job category | Blue-Collar (21.6%) |
+|  | Marriage status | Married |
+
+It might make sense to focus on those in cluster 1, as they have more money to spend and are thus probably earning more, too. These clusters are derived from successful customers, so it would make the most sense to appeal to all three of these clusters.
+
+#### Five Clusters <a name='5-clusters'></a>
+[Back to TOC](#toc)
+
+Using PCA, I reduced the dimensions to five. Then, out of PCA and TSNE, UMAP also gave the most convincing plot for 5 clusters:
+
+![UMAP 2D representation of groups](figures/2_l3_umap5.jpg)
+
+Calculating some summary statistics for the clusters gave the following table:
+
+| Cluster Number | Attribute | Value |
+|---|---|---|
+| 1 | Median age: | 36 |
+|  | Median balance (Euro) | 36 |
+|  | Education level | Secondary |
+|  | Job category | Management (21.4%) |
+|  | Marriage status | Married |
+| 2 | Median age: | 38 |
+|  | Median balance (Euro) | 2850 |
+|  | Education level | Tertiary |
+|  | Job category | Management (29.7%) |
+|  | Marriage status | Married |
+| 3 | Median age: | 36 |
+|  | Median balance (Euro) | 420 |
+|  | Education level | Secondary |
+|  | Job category | Blue-Collar (22.3%) |
+|  | Marriage status | Married |
+| 4 | Median age: | 38 |
+|  | Median balance (Euro) | 934 |
+|  | Education level | Secondary |
+|  | Job category | Blue-Collar (22.2%) |
+|  | Marriage status | Married |
+| 5 | Median age: | 39 |
+|  | Median balance (Euro) | -394 |
+|  | Education level | Tertiary |
+|  | Job category | Management (25.0%) |
+|  | Marriage status | Married |
+
+What is most interesting to me here is the fifth grouping, cluser 5, with a negative amount in their bank account. They work in management and have a tertiary level of education, suggesting they are high earners, but are not prioritizing the health of their bank account. This would make sense that they would need a loan, but are probably able to pay it back given their employment situation. Being married and also having the oldest median age further suggests their financial stability.
+
+#### Conclusion <a name='conclusion'></a>
+[Back to TOC](#toc)
+
+Given the summary statistics of the three- and five-cluster groupings, it seems like five groups tell a more complete story of the customers. We have clear differences between each of the groupings. The fifth and second clusters might be the most worthwhile customers to focus on given their jobs and educational background probably give them higher-than-average incomes, which they could use to purchase the term deposit loans from the bank.
