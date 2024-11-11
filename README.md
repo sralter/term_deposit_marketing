@@ -314,7 +314,78 @@ The dendrogram showed similar results that we got with the [feature importances]
 
 ![Normalized dataset dendrogram](figures/2_l3_dendrogram.png)
 
-Using KMeans to construct an elbow plot to determine the optimal number of clusters showed that 3-5 gave a good representation of the total within-cluster sum of means, or inertia:
+Using KMeans to construct an elbow plot to determine the optimal number of clusters showed that [three](#3-clusters) or [five](#5-clusters) clusters gave a good representation of the total within-cluster sum of means, or inertia:
 
 ![Elbow plot for optimal number of clusters using KMeans](figures/2_l3_elbow.png)
+
+#### Three Clusters <a name='3-clusters'></a>
+[Back to TOC](#toc)
+
+Out of PCA and TSNE, UMAP gave the most convincing plot for 3 clusters:
+
+![UMAP 2D representation of groups](figures/2_l3_umap3/png)
+
+Calculating some summary statistics for the clusters gave the following table:
+
+| Cluster Number | Attribute | Value |
+|---|---|---|
+| 0 | Median age: | 36 |
+|  | Median balance (Euro) | 22.0 |
+|  | Education level | Secondary |
+|  | Job category | Blue-Collar (21.5%) |
+|  | Marriage status | Married |
+| 1 | Median age: | 39 |
+|  | Median balance (Euro) | 2326.0 |
+|  | Education level | Tertiary |
+|  | Job category | Management (28.3%) |
+|  | Marriage status | Married |
+| 2 | Median age: | 37 |
+|  | Median balance (Euro) | 556.0 |
+|  | Education level | Secondary |
+|  | Job category | Blue-Collar (21.6%) |
+|  | Marriage status | Married |
+
+These clustes highlight three types of people:
+* One who does not have a lot of money saved, but works at a blue-collar job and has a second income
+* One who has a middle amount of money saved and also works at a blue-collar job and has a second income
+* One who works in management and has more money saved
+
+It might make the most sense to focus on those in cluster 1, as they have more money to spend and are thus probably earning more, too. These clusters are derived from successful customers, so it would make the most sense to appeal to all three of these clusters.
+
+#### Five Clusters <a name='5-clusters'></a>
+[Back to TOC](#toc)
+
+Out of PCA and TSNE, UMAP also gave the most convincing plot for 5 clusters:
+
+![UMAP 2D representation of groups](figures/2_l3_umap5/png)
+
+Calculating some summary statistics for the clusters gave the following table:
+
+| Cluster Number | Attribute | Value |
+|---|---|---|
+| 0 | Median age: | 36 |
+|  | Median balance (Euro) | 35.5 |
+|  | Education level | Secondary |
+|  | Job category | Management (21.4%) |
+|  | Marriage status | Married |
+| 1 | Median age: | 38 |
+|  | Median balance (Euro) | 2850.0 |
+|  | Education level | Tertiary |
+|  | Job category | Management (29.7%) |
+|  | Marriage status | Married |
+| 2 | Median age: | 36 |
+|  | Median balance (Euro) | 420.0 |
+|  | Education level | Secondary |
+|  | Job category | Blue-Collar (22.3%) |
+|  | Marriage status | Married |
+| 3 | Median age: | 38 |
+|  | Median balance (Euro) | 934.0 |
+|  | Education level | Secondary |
+|  | Job category | Blue-Collar (22.2%) |
+|  | Marriage status | Married |
+| 4 | Median age: | 39 |
+|  | Median balance (Euro) | -394.0 |
+|  | Education level | Tertiary |
+|  | Job category | Management (25.0%) |
+|  | Marriage status | Married |
 
