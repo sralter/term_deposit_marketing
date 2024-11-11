@@ -316,22 +316,22 @@ Now we have come to the final section for this project. We have trained models t
 
 I prepared a new version of the dataset that was scaled using sklearn's `Normalize` rather than using sklearn's `StandardScaler`, as the resulting correlation plot showed better correlations with the continuous features like Duration and Balance:
 
-![Correlation matrix with encoded dataset](figures/2_l3_corrmatrix_norm.png)
+![Correlation matrix with encoded dataset](figures/2_l3_corrmatrix_norm.jpg)
 
 The dendrogram showed similar results that we got with the [feature importances](#feature-importances), showing the importance of Age and Balance, among others:
 
-![Normalized dataset dendrogram](figures/2_l3_dendrogram.png)
+![Normalized dataset dendrogram](figures/2_l3_dendrogram.jpg)
 
 Using KMeans to construct an elbow plot to determine the optimal number of clusters showed that [three](#3-clusters) or [five](#5-clusters) clusters gave a good representation of the total within-cluster sum of means, or inertia:
 
-![Elbow plot for optimal number of clusters using KMeans](figures/2_l3_elbow.png)
+![Elbow plot for optimal number of clusters using KMeans](figures/2_l3_elbow.jpg)
 
 #### Three Clusters <a name='3-clusters'></a>
 [Back to TOC](#toc)
 
 Using PCA, I reduced the dimensions to three. Then, out of PCA and TSNE, UMAP gave the most convincing plot for 3 clusters:
 
-![UMAP 2D representation of groups](figures/2_l3_umap3.png)
+![UMAP 2D representation of groups](figures/2_l3_umap3.jpg)
 
 Calculating some summary statistics for the clusters gave the following table:
 
@@ -360,7 +360,7 @@ It might make sense to focus on those in cluster 1, as they have more money to s
 
 Using PCA, I reduced the dimensions to five. Then, out of PCA and TSNE, UMAP also gave the most convincing plot for 5 clusters:
 
-![UMAP 2D representation of groups](figures/2_l3_umap5.png)
+![UMAP 2D representation of groups](figures/2_l3_umap5.jpg)
 
 Calculating some summary statistics for the clusters gave the following table:
 
