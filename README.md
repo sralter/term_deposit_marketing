@@ -290,7 +290,31 @@ Specifications:
 
 _**This model will save the company almost 2,634 hours, or over 93% of their time, while letting only 11% of their customers through.**_
 
+Extracting the feature importances <a name='feature-importances'></a> from the model shows that **call duration**, **balance**, **day**, and **age** are very important decision points for the tree-based model. Duration has almost 47% of the total importance, far exceeding the other categories:
+
+| Feature | Importance |
+|---|---|
+| Duration | 46.77% |
+| Balance | 7.54% |
+| Day | 7.36% |
+| Age | 6.31% |
+
+The bank would do well to focus on these features for selecting customers or preparing to sell them the loan.
+
 ### Layer 3 <a name='l3'></a>
 [Back to TOC](#toc)
 
-Under construction...
+Now we have come to the final section for this project. We have trained models to predict which customers are likely to buy the term deposit loan, and we trained models that have helped the company understand who they should continue to call. We have one last question that still needs to be answered, namely: can we group the customers into clusters? This would help the bank understand which kind of customer they should target, ones that would very likely successfully purchase the loan.
+
+I prepared a new version of the dataset that was scaled using sklearn's `Normalize` rather than using sklearn's `StandardScaler`, as the resulting correlation plot showed better correlations with the continuous features like Duration and Balance:
+
+![Correlation matrix with encoded dataset](figures/2_l3_corrmatrix_norm.png)
+
+The dendrogram showed similar results that we got with the [feature importances](#feature-importances), showing the importance of Age and Balance, among others:
+
+![Normalized dataset dendrogram](figures/2_l3_dendrogram.png)
+
+Using KMeans to construct an elbow plot to determine the optimal number of clusters showed that 3-5 gave a good representation of the total within-cluster sum of means, or inertia:
+
+![Elbow plot for optimal number of clusters using KMeans](figures/2_l3_elbow.png)
+
