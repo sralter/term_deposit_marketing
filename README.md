@@ -331,7 +331,7 @@ Using KMeans to construct an elbow plot to determine the optimal number of clust
 
 Using PCA, I reduced the dimensions to three. Then, out of PCA and TSNE, UMAP gave the most convincing plot for 3 clusters:
 
-![UMAP 2D representation of groups](figures/2_l3_umap3/png)
+![UMAP 2D representation of groups](figures/2_l3_umap3.png)
 
 Calculating some summary statistics for the clusters gave the following table:
 
@@ -360,7 +360,7 @@ It might make sense to focus on those in cluster 1, as they have more money to s
 
 Using PCA, I reduced the dimensions to five. Then, out of PCA and TSNE, UMAP also gave the most convincing plot for 5 clusters:
 
-![UMAP 2D representation of groups](figures/2_l3_umap5/png)
+![UMAP 2D representation of groups](figures/2_l3_umap5.png)
 
 Calculating some summary statistics for the clusters gave the following table:
 
