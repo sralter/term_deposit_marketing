@@ -46,6 +46,7 @@ I produced two notebooks for this project, one for the [EDA](project2_eda.ipynb)
 
 ### The dataset<a name='the-dataset'></a>
 [Back to TOC](#toc)
+
 I am working with a phone call dataset that also has demographic information about the recipients:
 | Column | Data Type | Comments |
 |---|---|---|
@@ -67,6 +68,7 @@ The final column, `y`, is the target of the dataset and shows whether the client
 
 ### Goals <a name='goals'></a>
 [Back to TOC](#toc)
+
 The startup is hoping that I can **achieve ≥81% accuracy** using a 5-fold cross validation strategy, taking the average performance score.
 
 Bonus goals are:
@@ -77,6 +79,7 @@ Bonus goals are:
 
 ## EDA <a name='eda'></a>
 [Back to TOC](#toc)
+
 There are 40000 rows and 14 columns in the datset, and it arrived to me clean, with no null values.
 
 Of all 40000 customers, a little more than 7% received loans. This points to a very large class-imbalance in the datsaet.
