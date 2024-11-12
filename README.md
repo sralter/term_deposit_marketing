@@ -397,4 +397,6 @@ What is most interesting to me here is the fifth grouping, cluser 5, with a nega
 #### Conclusion <a name='conclusion'></a>
 [Back to TOC](#toc)
 
-Given the summary statistics of the three- and five-cluster groupings, it seems like five groups tell a more complete story of the customers. We have clear differences between each of the groupings. The fifth and second clusters might be the most worthwhile customers to focus on given their jobs and educational background probably give them higher-than-average incomes, which they could use to purchase the term deposit loans from the bank.
+Given the summary statistics of the three- and five-cluster groupings, it seems like five groups tell a more complete story of the customers. There are important things to highlight within the groups, namely that the fifth and second clusters might be the most worthwhile customers to focus on, given their jobs and educational background probably give them higher-than-average incomes, which they could use to purchase the term deposit loans from the bank.
+
+That being said, taken as a whole, these customers are in their mid- to late-30s and have achieved either a secondary or tertiary education level. Their bank accounts have different amounts of money in them (hence why the bank should target those in cluster two), but they work mostly in management (though some are in blue-collar jobs.
