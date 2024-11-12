@@ -36,7 +36,7 @@ I produced two notebooks for this project, one for the [EDA](project2_eda.ipynb)
   * [Layer 1](#l1): Using only the demographic and banking data to simulate customers that haven't been contacted by the bank yet.
     * [Results] of Layer 1(#l1-results)
     * Other metrics to optimize: the [F1 Score](#f1)
-  * [Layer 2])#l2): Training a model to predict the customers on the full dataset
+  * [Layer 2](#l2): Training a model to predict the customers on the full dataset
      [Feature Importances](feature-importances): Using the tree-based model to answer the question: Which features in the dataset are most important to predicting a likely customer?
   * [Layer 3](#l3): Performing unsupervised learning to understand the grouping patterns of the bank's customers
     * [Three Clusters](3-clusters): Using PCA to create three clusters in the successful customer dataset
