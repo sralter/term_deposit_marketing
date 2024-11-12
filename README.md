@@ -12,7 +12,9 @@ This project used **supervised** and **unsupervised learning** techniques and th
 * Important conclusions:
   * Layer 1: A model achieved **over 403 hours of time savings**, or 14.25% of their total time. The model only missed 6% of their eventual subscribers.
   * Layer 2: I was able to train a model that **saved over 2,600 hours, or 93% of their total time**. The model only missed 11% of their total subscribers.
-  * Layer 3: An elbow plot helped determine that the optimal number of customer clusters is five. You can see the summary statistics [here](#5-clusters)
+  * Layer 3: An elbow plot helped determine that the optimal number of customer clusters is five.
+    * You can see the summary statistics [here](#5-clusters)
+    * The ideal customer for the bank's term deposit loan is a blue-collar or management proefessional in their mid- to late-30s with secondary or tertiary level of education
 
 ## Overview<a name='overview'></a>
 I produced two notebooks for this project, one for the [EDA](project2_eda.ipynb) and one for the [Modeling](project2_modeling.ipynb). This being the ReadMe, you can jump to those sections that are found below.
