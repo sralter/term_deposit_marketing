@@ -302,6 +302,10 @@ _**This model will save the company almost 2,634 hours, or over 93% of their tim
 
 Extracting the feature importances <a name='feature-importances'></a> from the model shows that **call duration**, **balance**, **day**, and **age** are very important decision points for the tree-based model. Duration has almost 47% of the total importance, far exceeding the other categories:
 
+![Feature importance plot](figures/2_l2_importancesplot.png)
+
+December has the lowest importance, which makes sense given it is the holidays time. 
+
 | Feature | Importance |
 |---|---|
 | Duration | 46.77% |
@@ -309,7 +313,7 @@ Extracting the feature importances <a name='feature-importances'></a> from the m
 | Day | 7.36% |
 | Age | 6.31% |
 
-The bank would do well to focus on these features for selecting customers or preparing to sell them the loan.
+The bank would do well to focus on these important features for selecting customers or preparing to sell them the loan.
 
 ### Layer 3 <a name='l3'></a>
 [Back to TOC](#toc)
