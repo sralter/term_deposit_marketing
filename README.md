@@ -3,7 +3,7 @@ By Samuel Alter
 Apziva: G3SuQYZYrFt9dwF3
 
 ## Summary<a name='summary'></a>
-This project used the following frameworks - Pandas, NumPy, Matplotlib, Seaborn, Optuna, and Scikit-learn - to analyze a phone call dataset from a bank and train models in an effort to help save the bank time. The dataset has within it demographic and banking data on their customers. By showing the model only certain columns, we can simulate the model learning which customers will most likely purchase a financial product of the bank.
+This project used **supervised** and **unsupervised learning** techniques and the following frameworks - Pandas, NumPy, Matplotlib, Seaborn, Optuna, Scikit-learn, and Principal Component Analysis - to analyze a phone call dataset from a bank and train models in an effort to help save the bank time. The dataset has within it demographic and banking data on their customers. By showing the model only certain columns, we can simulate the model learning which customers will most likely purchase a financial product of the bank.
 * There are three phases to the project
   * Layer 1 involves simulating ignorance on which customer eventually was approved and bought the product
   * Layer 2 involves the full dataset to simulate which customers the bank should continue to call to secure the sale
@@ -12,7 +12,9 @@ This project used the following frameworks - Pandas, NumPy, Matplotlib, Seaborn,
 * Important conclusions:
   * Layer 1: A model achieved **over 403 hours of time savings**, or 14.25% of their total time. The model only missed 6% of their eventual subscribers.
   * Layer 2: I was able to train a model that **saved over 2,600 hours, or 93% of their total time**. The model only missed 11% of their total subscribers.
-  * Layer 3: An elbow plot helped determine that the optimal number of customer clusters is five. You can see the summary statistics [here](#5-clusters)
+  * Layer 3: An elbow plot helped determine that the optimal number of customer clusters is five.
+    * You can see the summary statistics [here](#5-clusters)
+    * The ideal customer for the bank's term deposit loan is a blue-collar or management proefessional in their mid- to late-30s with secondary or tertiary level of education
 
 ## Overview<a name='overview'></a>
 I produced two notebooks for this project, one for the [EDA](project2_eda.ipynb) and one for the [Modeling](project2_modeling.ipynb). This being the ReadMe, you can jump to those sections that are found below.
@@ -397,4 +399,6 @@ What is most interesting to me here is the fifth grouping, cluser 5, with a nega
 #### Conclusion <a name='conclusion'></a>
 [Back to TOC](#toc)
 
-Given the summary statistics of the three- and five-cluster groupings, it seems like five groups tell a more complete story of the customers. We have clear differences between each of the groupings. The fifth and second clusters might be the most worthwhile customers to focus on given their jobs and educational background probably give them higher-than-average incomes, which they could use to purchase the term deposit loans from the bank.
+Given the summary statistics of the three- and five-cluster groupings, it seems like five groups tell a more complete story of the customers. There are important things to highlight within the groups, namely that the fifth and second clusters might be the most worthwhile customers to focus on, given their jobs and educational background probably give them higher-than-average incomes, which they could use to purchase the term deposit loans from the bank.
+
+That being said, taken as a whole, these customers are in their mid- to late-30s and have achieved either a secondary or tertiary education level. Their bank accounts have different amounts of money in them (hence why the bank should target those in cluster two), but they work mostly in management (though some are in blue-collar jobs.
