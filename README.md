@@ -36,7 +36,7 @@ I produced two notebooks for this project, one for the [EDA](project2_eda.ipynb)
   * [Layer 1](#l1): Using only the demographic and banking data to simulate customers that haven't been contacted by the bank yet.
     * [Results] of Layer 1(#l1-results)
     * Other metrics to optimize: the [F1 Score](#f1)
-  * [Layer 2])#l2): Training a model to predict the customers on the full dataset
+  * [Layer 2](#l2): Training a model to predict the customers on the full dataset
      [Feature Importances](feature-importances): Using the tree-based model to answer the question: Which features in the dataset are most important to predicting a likely customer?
   * [Layer 3](#l3): Performing unsupervised learning to understand the grouping patterns of the bank's customers
     * [Three Clusters](3-clusters): Using PCA to create three clusters in the successful customer dataset
@@ -302,6 +302,10 @@ _**This model will save the company almost 2,634 hours, or over 93% of their tim
 
 Extracting the feature importances <a name='feature-importances'></a> from the model shows that **call duration**, **balance**, **day**, and **age** are very important decision points for the tree-based model. Duration has almost 47% of the total importance, far exceeding the other categories:
 
+![Feature importance plot](figures/2_l2_importancesplot.png)
+
+December has the lowest importance, which makes sense given it is the holidays time. 
+
 | Feature | Importance |
 |---|---|
 | Duration | 46.77% |
@@ -309,7 +313,7 @@ Extracting the feature importances <a name='feature-importances'></a> from the m
 | Day | 7.36% |
 | Age | 6.31% |
 
-The bank would do well to focus on these features for selecting customers or preparing to sell them the loan.
+The bank would do well to focus on these important features for selecting customers or preparing to sell them the loan.
 
 ### Layer 3 <a name='l3'></a>
 [Back to TOC](#toc)
